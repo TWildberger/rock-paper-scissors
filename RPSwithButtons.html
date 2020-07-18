@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<style>
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+<html>
+<body>
+ <div id="container">
+<div id="buttons">
+<button id="rock">Rock</button>
+<button id="paper">Paper</button>
+<button id="scissors">Scissors</button>
+</div>
+</div>
+</body>
+</html>
+<script>
+let roundsPlayed = 0;
+let playerWins = 0;
+let compWins=0;
+function computerPlay(){
+    let RPS = ["rock", "paper", "scissors"]
+    return RPS[Math.floor(Math.random() * 3)];
+}
+function displayWinner(winner){
+        if (winner===null){
+            winner = 'Tie game. No one'
+        }
+    return winner;
+    }
+function gameWinner(playerWins,compWins){
+    if(playerWins===compWins){
+        return "Tie game! " + playerWins + " - " + compWins +".";
+    }else if (playerWins>compWins){
+        return "You win! " + playerWins + " - " + compWins +"."
+    }else{
+        return "Sorry, computer wins. " + compWins + " - " + playerWins +"."
+    }
+}
+function playRound(computerPlay, playerSelection){
+    let winner = null;
+    //playerSelection = window.prompt("Please choose rock, paper, or scissor.");
+    console.log('The computer chose: ' + computerPlay);
+    //console.log('You chose: ' + playerSelection.toLowerCase());
+    if (playerSelection.toLowerCase() === 'rock'){
+       if(computerPlay==='rock'){
+           console.log('tie game.');
+       }
+       else if(computerPlay==='scissors'){
+           console.log('You win!');
+           winner = 'Player';
+           playerWins++;
+        }
+       else{
+           console.log('Sorry, you lose.');
+           winner = 'Computer';
+           compWins++;
+       }
+    } else if (playerSelection.toLowerCase() === 'scissors'){
+        if(computerPlay==='rock'){
+           console.log('Sorry, you lose.');
+           winner = 'Computer';
+           compWins++;
+       }
+       else if(computerPlay==='scissors'){
+           console.log('Tie game.');
+       }
+       else{
+           console.log('You win!')
+           winner = 'Player';
+           playerWins++;
+       }
+    } else if (playerSelection.toLowerCase() === 'paper'){
+        if(computerPlay==='rock'){
+           console.log('You win!');
+           winner = 'Player';
+           playerWins++;
+       }
+       else if(computerPlay==='scissors'){
+           console.log('Sorry, you lose.');
+           winner = 'Computer';
+           compWins++;
+       }
+       else{
+           console.log('tie game.');
+       }
+    } else {
+        console.log('Hmm, looks like that was not a valid choice.')
+    }
+    
+    content.textContent = ("Computer chose: " + computerPlay + ". " + displayWinner(winner) + " wins.")
+    score.textContent = ("Player: "+ playerWins + " wins. " + "Computer: " + compWins + " wins.")
+    roundsPlayed++;
+    rounds.textContent="Rounds played: " + roundsPlayed;
+    if(roundsPlayed===5){
+        alert(gameWinner(playerWins,compWins));
+        roundsPlayed=0;
+        playerWins=0;
+        compWins=0;
+        score.textContent = "Player: 0 wins. Computer: 0 wins.";
+        content.textContent = "";
+        rounds.textContent = "0";
+    }
+    
+    return winner;
+    
+}
+const rockBtn = document.querySelector('#rock');
+//rockBtn.addEventListener('click',rockSelection);
+rockBtn.addEventListener('click',()=>{
+    playRound(computerPlay(), 'rock');
+    console.log(roundsPlayed);
+});
+const paperBtn = document.querySelector('#paper');
+//rockBtn.addEventListener('click',rockSelection);
+paperBtn.addEventListener('click',()=>{
+    playRound(computerPlay(), 'paper');
+    console.log(roundsPlayed);
+});
+const scissorsBtn = document.querySelector('#scissors');
+//rockBtn.addEventListener('click',rockSelection);
+scissorsBtn.addEventListener('click',()=>{
+    playRound(computerPlay(), 'scissors');
+    console.log(roundsPlayed);
+});
+const container = document.querySelector('#container');
+const content = document.createElement('div');
+content.classList.add('content');
+content.setAttribute('style', 'color: green')
+content.textContent = '';
+container.appendChild(content);
+const score = document.createElement('div');
+score.classList.add('score');
+score.setAttribute('style', 'color: green')
+score.textContent = 'This is the score.';
+container.appendChild(score);
+const rounds = document.createElement('div');
+rounds.classList.add('rounds');
+rounds.setAttribute('style', 'color: green')
+rounds.textContent = 'Rounds played: 0';
+container.appendChild(rounds);
+</script>
